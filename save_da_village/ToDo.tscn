@@ -1,0 +1,107 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/ToDoList.gd" type="Script" id=1]
+[ext_resource path="res://assets/Font/Hack-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/themes/Hack_font.tres" type="DynamicFont" id=3]
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 1, 1, 1, 0.341176 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 1, 1, 1, 0.341176 )
+
+[sub_resource type="VisualScript" id=1]
+data = {
+"base_type": "Shader",
+"functions": [ {
+"data_connections": [  ],
+"function_id": -1,
+"name": "f_312843592",
+"nodes": [  ],
+"scroll": Vector2( -115.133, -97.0953 ),
+"sequence_connections": [  ]
+} ],
+"is_tool_script": false,
+"signals": [  ],
+"variables": [  ],
+"vs_unify": true
+}
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+void fragment()
+{
+  COLOR = texture(TEXTURE, UV); //read from texture
+	COLOR.b = 1.0;
+	COLOR.g = 1.0;
+	COLOR.r = 1.0; //set blue channel to 1.0
+}"
+script = SubResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/Font/Hack-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+font_data = SubResource( 5 )
+
+[node name="Node" type="Node"]
+script = ExtResource( 1 )
+
+[node name="ToDoList" type="ItemList" parent="."]
+margin_left = 536.0
+margin_top = 64.0
+margin_right = 778.0
+margin_bottom = 256.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 3 )
+custom_styles/bg = SubResource( 7 )
+items = [ "Make The Todo List", null, false ]
+
+[node name="FinishedList" type="ItemList" parent="."]
+margin_left = 784.0
+margin_top = 64.0
+margin_right = 1026.0
+margin_bottom = 256.0
+custom_colors/font_color = Color( 0.0823529, 0.0823529, 0.0823529, 1 )
+custom_fonts/font = ExtResource( 3 )
+custom_styles/bg = SubResource( 8 )
+items = [ "Finished items", null, false ]
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="."]
+material = SubResource( 3 )
+margin_top = 64.0
+margin_right = 250.0
+margin_bottom = 85.0
+custom_fonts/font = SubResource( 4 )
+text = "Adding Things To The List
+Format:'Task,[hours]:[min]'"
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_top = 112.0
+margin_right = 248.0
+margin_bottom = 152.0
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 64.0
+margin_top = 158.0
+margin_right = 186.0
+margin_bottom = 183.0
+custom_fonts/font = SubResource( 6 )
+text = "Add To List"
+
+[node name="timers" type="Node" parent="."]
+
+[connection signal="item_activated" from="ToDoList" to="." method="_on_ItemList_item_activated"]
+[connection signal="item_selected" from="ToDoList" to="." method="_on_ItemList_item_selected"]
+[connection signal="item_activated" from="FinishedList" to="." method="_on_ItemList_item_activated2"]
+[connection signal="item_selected" from="FinishedList" to="." method="_on_ItemList_item_selected2"]
+[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed"]
